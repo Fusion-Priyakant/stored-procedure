@@ -1,0 +1,69 @@
+ SELECT
+    SP_NAME = o.name
+FROM sys.sql_modules m
+INNER JOIN sys.objects o
+    ON m.object_id = o.object_id
+WHERE
+    m.definition LIKE '%EXEC%'
+    OR m.definition LIKE '%SP_EXECUTESQL%'
+	
+	
+	
+	
+	
+	
+SELECT
+    SP_NAME = name
+FROM sys.procedures
+WHERE  
+    OBJECT_DEFINITION(object_id) LIKE '%EXEC%'
+    OR OBJECT_DEFINITION(object_id)LIKE '%SP_EXECUTESQL%'
+	
+	
+	
+	
+	
+SELECT
+    SP_NAME = OBJECT_NAME(OBJECT_ID)
+FROM sys.sql_modules
+WHERE
+    OBJECTPROPERTY(OBJECT_ID, 'IsProcedure') = 1
+    AND (
+        definition LIKE '%EXEC%'
+        OR definition LIKE '%SP_EXECUTESQL%'
+    )
+	
+	
+	
+	
+select b.name as Sp_Names from sys.syscomments a,sys.procedures b 
+where  a.id=b.object_id and (a.text like '%exec%' or a.text like '%sp_executesql%')
+
+
+
+SELECT SP_NAME = name from sys.procedures where OBJECT_DEFINITION(object_id) Like '%'''''' +%'
+
+SELECT SP_NAME = name from sys.procedures where OBJECT_DEFINITION (object_id) Like '%exec%' AND OBJECT_DEFINITION (object_id) Like '%'''''' +%'
+
+SELECT SP_NAME = name from sys.procedures where OBJECT_DEFINITION (object_id) Like '%'''''' +%' OR OBJECT_DEFINITION (object_id) Like '%''''''+%'
+
+SELECT SP_NAME = name from sys.procedures where OBJECT_DEFINITION (object_id) like '%exec%' AND OBJECT_DEFINITION (object_id) Like '%'''''' +%' OR OBJECT_DEFINITION (object_id) Like '%''''''+%'
+
+SELECT SP_NAME = name from sys.procedures where OBJECT_DEFINITION (object_id) Like '%sp_executesql%' AND OBJECT_DEFINITION (object_id) Like '%'''''' +%' OR OBJECT_DEFINITION (object_id) Like '%''''''+%'
+
+
+
+
+
+==========================Oracle
+
+
+
+
+SELECT * FROM all_source   
+WHERE upper(text) LIKE '||'
+	AND TYPE IN ('FUNCTION','PROCEDURE','PACKAGE')
+ORDER BY owner, name, type, line;
+
+
+
